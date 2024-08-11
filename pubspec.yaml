@@ -34,7 +34,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/img/
-    - assets/json/
     - assets/fonts/
   fonts:
     - family: Roboto
@@ -44,4 +43,3 @@ flutter:
           weight: 700
         - asset: assets/fonts/Roboto-Italic.ttf
           style: italic
-

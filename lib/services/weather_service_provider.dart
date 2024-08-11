@@ -19,11 +19,11 @@ class WeatherServiceProvider extends ChangeNotifier {
   Future<void> fetchWeatherDataByCity(String city) async {
     _isloading = true;
     _error = "";
-    https: //api.openweathermap.org/data/2.5/weather?q=dubai&appid=ad93ec9d6bcf5c35eec3b3f597b82047&units=metric
+    https: //api.openweathermap.org/data/2.5/weather?q=dubai&appid=49aecde5e170081fa348e125ae6fc59e&units=metric
     try {
       final String apiUrl =
           "${APIEndPoints().cityUrl}${city}&appid=${APIEndPoints().apikey}${APIEndPoints().unit}";
-      //print(apiUrl);
+      
       final response = await http.get(Uri.parse(apiUrl));
 
       if (response.statusCode == 200) {

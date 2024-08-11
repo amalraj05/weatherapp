@@ -35,7 +35,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final locationProvider = Provider.of<LocationProvider>(context);
+    final locationProvider
+     = Provider.of<LocationProvider>(context);
 
     // Get the weather data from the WeatherServiceProvider
     final weatherProvider = Provider.of<WeatherServiceProvider>(context);
@@ -56,275 +57,264 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.only(top: 65, left: 20, right: 20, bottom: 20),
-        height: size.height,
-        width: size.width,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage( background[weatherProvider.weather?.weather![0]?.main ?? "N/A"] ?? "assets/img/default.png",))),
-        child: Stack(
-          children: [
-
-            Container(
-              height: 50,
-              child: Consumer<LocationProvider>(
-                  builder: (context, locationProvider, child) {
-                    var locationCity;
-                    if (locationProvider.currentLocationName != null) {
-                      locationCity = locationProvider.currentLocationName!.locality;
-                    } else {
-                      locationCity = "Unknown Location";
-                    }
-
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(top: 65, left: 20, right: 20, bottom: 20),
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover, image: AssetImage( background[weatherProvider.weather?.weather![0]?.main ?? "N/A"] ?? "assets/img/default.png",))),
+          child: Stack(
+            children: [
+        
+              Container(
+                height: 50,
+                child: Consumer<LocationProvider>(
+                    builder: (context, locationProvider, child) {
+                      var locationCity;
+                      if (locationProvider.currentLocationName != null) {
+                        locationCity = locationProvider.currentLocationName!.locality;
+                      } else {
+                        locationCity = "Unknown Location";
+                      }
+        
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_pin,
+                                  color: Colors.red,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      data: locationCity,
+                                      color: Colors.white,
+                                      fw: FontWeight.w700,
+                                      size: 18,
+                                    ),
+                                    AppText(
+                                      data: "Good Morning",
+                                      color: Colors.white,
+                                      fw: FontWeight.w400,
+                                      size: 14,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+        
+                        ],
+                      );
+                    }),
+              ),
+              Align(
+                alignment: Alignment(0, -0.6),
+                child: Image.asset(
+                  imagePath[weatherProvider.weather?.weather![0]?.main ?? "N/A"] ?? "assets/img/default.png",width: 200,height: 200,
+                  // Adjust the height as needed
+                ),),
+              Align(
+                alignment: Alignment(0, 0),
+                child: Container(
+                  height: 150,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppText(
+                        data: "${weatherProvider.weather?.main?.temp?.toStringAsFixed(0)} \u00B0C" ?? "", // Display temperature
+                        color: Colors.white,
+                        fw: FontWeight.bold,
+                        size: 32,
+                      ),
+                      AppText(
+                        data:weatherProvider.weather?.name ?? "N/A",
+                        color: Colors.white,
+                        fw: FontWeight.w600,
+                        size: 20,
+                      ),
+                      AppText(
+                        data:weatherProvider.weather?.weather![0].main ?? "N/A",
+                        color: Colors.white,
+                        fw: FontWeight.w600,
+                        size: 20,
+                      ),
+                      AppText(
+                        data: DateFormat('hh:mm a').format(DateTime.now()),
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment(0.0, 0.75),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black.withOpacity(0.4)),
+                  height: 180,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
                             children: [
-                              Icon(
-                                Icons.location_pin,
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                width: 10,
+                              Image.asset(
+                                'assets/img/temperature-high.webp',
+                                height: 55,
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AppText(
-                                    data: locationCity,
+                                    data: "Temp Max",
                                     color: Colors.white,
-                                    fw: FontWeight.w700,
-                                    size: 18,
+                                    size: 14,
+                                    fw: FontWeight.w600,
                                   ),
                                   AppText(
-                                    data: "Good Morning",
+                                    data:"${weatherProvider.weather?.main!.tempMax!.toStringAsFixed(0)} \u00B0C"?? "N/A",
                                     color: Colors.white,
-                                    fw: FontWeight.w400,
                                     size: 14,
+                                    fw: FontWeight.w600,
                                   )
                                 ],
-                              ),
+                              )
                             ],
                           ),
-                        ),
-
-                      ],
-                    );
-                  }),
-            ),
-            Align(
-              alignment: Alignment(0, -0.7),
-              child: Image.asset(
-                imagePath[weatherProvider.weather?.weather![0]?.main ?? "N/A"] ?? "assets/img/default.png",
-                // Adjust the height as needed
-              ),),
-            Align(
-              alignment: Alignment(0, 0),
-              child: Container(
-                height: 150,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppText(
-                      data: "${weatherProvider.weather?.main?.temp?.toStringAsFixed(0)} \u00B0C" ?? "", // Display temperature
-                      color: Colors.white,
-                      fw: FontWeight.bold,
-                      size: 32,
-                    ),
-                    AppText(
-                      data:weatherProvider.weather?.name ?? "N/A",
-                      color: Colors.white,
-                      fw: FontWeight.w600,
-                      size: 20,
-                    ),
-                    AppText(
-                      data:weatherProvider.weather?.weather![0].main ?? "N/A",
-                      color: Colors.white,
-                      fw: FontWeight.w600,
-                      size: 20,
-                    ),
-                    AppText(
-                      data: DateFormat('hh:mm a').format(DateTime.now()),
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment(0.0, 0.75),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.black.withOpacity(0.4)),
-                height: 180,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/img/temperature-high.png',
-                              height: 55,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AppText(
-                                  data: "Temp Max",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                ),
-                                AppText(
-                                  data:"${weatherProvider.weather?.main!.tempMax!.toStringAsFixed(0)} \u00B0C"?? "N/A",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/img/temperature-low.png',
-                              height: 55,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AppText(
-                                  data: "Temp Min",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                ),
-                                AppText(
-                                  data:"${weatherProvider.weather?.main!.tempMin!.toStringAsFixed(0)} \u00B0C"?? "N/A",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    CustomDivider(
-                      startIndent: 20,
-                      endIndent: 20,
-                      color: Colors.white,
-                      thickness: 2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/img/sun.png',
-                              height: 55,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AppText(
-                                  data: "Sunrise",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                ),
-                                AppText(
-                                  data:"${formattedSunrise} AM",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/img/moon.png',
-                              height: 55,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AppText(
-                                  data: "Sunset",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                ),
-                                AppText(
-                                  data:"${formattedSunset} PM",
-                                  color: Colors.white,
-                                  size: 14,
-                                  fw: FontWeight.w600,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 50,
-              left: 20,
-              right: 20,
-              child: Container(
-                height: 45,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        style: TextStyle(color: Colors.white),
-                        controller: _cityController,
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                          SizedBox(
+                            width: 20,
                           ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/img/temperature-low.webp',
+                                height: 55,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppText(
+                                    data: "Temp Min",
+                                    color: Colors.white,
+                                    size: 14,
+                                    fw: FontWeight.w600,
+                                  ),
+                                  AppText(
+                                    data:"${weatherProvider.weather?.main!.tempMin!.toStringAsFixed(0)} \u00B0C"?? "N/A",
+                                    color: Colors.white,
+                                    size: 14,
+                                    fw: FontWeight.w600,
+                                  )
+                                ],
+                              )
+                            ],
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                    IconButton(onPressed: (){
-                      Provider.of<WeatherServiceProvider>(context, listen: false).fetchWeatherDataByCity(_cityController.text.toString());
-                    }, icon: Icon(Icons.search))
-                  ],
+                      CustomDivider(
+                        startIndent: 20,
+                        endIndent: 20,
+                        color: Colors.white,
+                        thickness: 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/img/sun.webp',
+                                height: 55,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppText(
+                                    data: "Sunrise",
+                                    color: Colors.white,
+                                    size: 14,
+                                    fw: FontWeight.w600,
+                                  ),
+                                  AppText(
+                                    data:"${formattedSunrise} AM",
+                                    color: Colors.white,
+                                    size: 14,
+                                    fw: FontWeight.w600,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/img/moon.png',
+                                height: 55,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppText(
+                                    data: "Sunset",
+                                    color: Colors.white,
+                                    size: 14,
+                                    fw: FontWeight.w600,
+                                  ),
+                                  AppText(
+                                    data:"${formattedSunset} PM",
+                                    color: Colors.white,
+                                    size: 14,
+                                    fw: FontWeight.w600,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 10,
+                left: 250,
+                right: 20,
+                child: Container(
+                  height: 45,
+                  child: Row(
+                    children: [
+                      
+                      IconButton(onPressed: (){
+                        Provider.of<WeatherServiceProvider>(context, listen: false).fetchWeatherDataByCity(_cityController.text.toString());
+                      }, icon: Icon(Icons.search))
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

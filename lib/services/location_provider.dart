@@ -42,7 +42,7 @@ class LocationProvider with ChangeNotifier {
     }
 
     _currentPosition = await Geolocator.getCurrentPosition();
-    //print(_currentPosition);
+    
 
     _currentLocationName =
         await _locationService.getLocationName(_currentPosition);
@@ -52,9 +52,4 @@ class LocationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // ask the permission
-
-  // get the location
-
-  // get the placemark
 }

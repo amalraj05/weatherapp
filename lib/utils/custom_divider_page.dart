@@ -7,10 +7,10 @@ class CustomDivider extends StatelessWidget {
   final double endIndent;
 
   CustomDivider({
-    this.color = Colors.grey,    // Default color is grey
-    this.thickness = 2,         // Default thickness is 2.0
-    this.startIndent = 0,       // Default startIndent is 0.0
-    this.endIndent = 80,        // Default endIndent is 80.0
+    this.color = Colors.grey,    
+    this.thickness = 2,         
+    this.startIndent = 0,      
+    this.endIndent = 80,        
   });
 
   @override
